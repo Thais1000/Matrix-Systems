@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Systems</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        header {
+            background-color: #004c99;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1000;
+        }
+        header img {
+            max-width: 60px;
+            margin-right: 10px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            height: 2px;
+            background-color: #fff;
+        }
+        nav {
+            background-color: #6e6f7a;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-family: Arial, sans-serif;
+        }
+        nav a {
+            color: #fff;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #004080;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .content {
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section h2 {
+            color: #004c99;
+            font-size: 24px; /* Reduzi o tamanho para harmonizar com o texto */
+            margin-bottom: 15px;
+            text-align: left; /* Alinhei à esquerda */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .section p, .section ul {
+            font-size: 18px;
+            line-height: 1.8;
+        }
+        footer {
+            background-color: #004c99;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            margin-top: 10px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #004080;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #003366;
+        }
+        .social-icons {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .social-icons a {
+            display: inline-block;
+            margin: 0 10px;
+        }
+        .social-icons img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+        .social-icons img:hover {
+            transform: scale(1.2);
+        }
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+            }
+            header img {
+                margin-bottom: 10px;
+            }
+            nav {
+                flex-direction: column;
+            }
+            .dropdown-content {
+                min-width: 100px;
+            }
+        }
+        .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: #004c99;
+            color: #ffffff;
+            text-align: center;
+            line-height: 40px;
+            font-size: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            transition: background-color 0.3s ease;
+        }
+        .scroll-to-top:hover {
+            background-color: #003366;
+        }
+        .contact-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 40px 20px;
+            background-color: #f0f4f8;
+            border-radius: 8px;
+            box-shadow: 0 5px 10px rgba(32, 32, 33, 0.177);
+        }
+        .contact-section .info {
+            width: 45%;
+            text-align: left;
+        }
+        .contact-section .info h2 {
+            color: #004c99;
+            font-size: 24px;
+            margin-bottom: 15px;
+            text-align: left; /* Alinhei à esquerda */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .contact-section .info p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        .form-container {
+            width: 45%;
+            background-color: #cedafa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-container h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            text-align: left; /* Alinhei à esquerda */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-container form label {
+            margin-top: 10px;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: left; /* Alinhei à esquerda */
+        }
+        .form-container form input, 
+        .form-container form select, 
+        .form-container form textarea {
+            margin-top: 5px;
+            padding: 12px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        .form-container form button {
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #004c99;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .form-container form button:hover {
+            background-color: #003366;
+        }
+        /* Ajustes para dispositivos menores */
+@media (max-width: 768px) {
+    .contact-section {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .contact-section .info,
+    .form-container {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .contact-section .info {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .form-container {
+        background-color: #e0e5ef;
+    }
+}
+
+@media (max-width: 480px) {
+    .scroll-to-top {
+        width: 35px;
+        height: 35px;
+        font-size: 20px;
+    }
+
+    .contact-section {
+        padding: 10px;
+    }
+
+    .contact-section .info h2,
+    .form-container h2 {
+        font-size: 20px;
+    }
+
+    .contact-section .info p,
+    .form-container form label,
+    .form-container form input,
+    .form-container form select,
+    .form-container form textarea {
+        font-size: 14px;
+    }
+
+    .form-container form button {
+        font-size: 16px;
+    }
+}
+       /* Estilo principal do carrossel */
+.carousel {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+.carousel-wrapper {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+/* Container do carrossel */
+.carousel-container {
+    width: 100%;
+    overflow: hidden; /* Mudado para esconder a rolagem do contêiner principal */
+    white-space: nowrap;
+    padding-bottom: 10px;
+    background-color: #f9f9f9;
+    position: relative;
+}
+
+/* Itens do carrossel */
+.carousel-item {
+    display: inline-block;
+    width: 200px;
+    box-sizing: border-box;
+    margin-right: 20px;
+    vertical-align: top;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    padding: 10px;
+}
+
+.carousel-item:hover {
+    transform: translateY(-5px);
+}
+
+.icon-image {
+    width: 60px;
+    height: 60px;
+    margin-top: 15px;
+    transition: transform 0.5s ease;
+}
+
+.carousel-item:hover .icon-image {
+    transform: scale(1.05);
+}
+
+.carousel-caption {
+    padding: 10px;
+    background-color: #004c99;
+    color: #ffffff;
+    text-align: center;
+    transition: background-color 0.5s ease;
+    border-radius: 0 0 10px 10px;
+}
+
+.carousel-caption:hover {
+    background-color: #003366;
+}
+
+.carousel-caption h3 {
+    margin: 5px 0;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.carousel-caption p {
+    margin: 5px 0 0;
+    font-size: 14px;
+}
+
+/* Botões do carrossel */
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 10;
+}
+
+.carousel-button.left {
+    left: 10px;
+}
+
+.carousel-button.right {
+    right: 10px;
+}
+
+.carousel-button:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Barra de rolagem */
+.carousel-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.carousel-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.carousel-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .carousel-item {
+        width: calc(100% / 2 - 20px);
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-item {
+        width: calc(100% - 20px);
+    }
+}
+
+/* Estilo principal da seção de projetos */
+.project-section {
+    position: relative;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+.project-section h2 {
+    color: #004c99;
+    font-size: 24px;
+    margin-bottom: 15px;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.project-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 20px;
+}
+
+.project-item {
+    flex: 0 0 auto;
+    width: 250px;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    background-color: #f0f4f8;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.project-item:hover {
+    transform: translateY(-5px);
+}
+
+.project-item img {
+    width: 30%;
+    height: auto;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.project-content {
+    padding: 15px;
+}
+
+.project-content h3 {
+    margin: 0;
+    font-size: 20px;
+    color: #004c99;
+    font-weight: 700;
+}
+
+.project-content p {
+    margin: 10px 0;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.project-content .button {
+    background-color: #004c99;
+    color: #ffffff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.project-content .button:hover {
+    background-color: #003366;
+}
+
+.project-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 10;
+}
+
+.project-button.left {
+    left: 10px;
+}
+
+.project-button.right {
+    right: 10px;
+}
+
+.project-button:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+       /* Estilos para o vídeo ao lado da seção de história */
+       .history-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start; /* Alinha ao topo */
+            margin-bottom: 30px;
+        }
+
+        .history-section .video-container {
+            width: 45%;
+            margin-right: 20px;
+        }
+
+        .history-section .video-container iframe {
+            width: 100%;
+            height: 300px; /* Altura do vídeo */
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .history-section .text-content {
+            width: 50%;
+        }
+
+        .history-section h2 {
+            font-size: 24px; /* Reduzi o tamanho para harmonizar com o texto */
+            margin-bottom: 15px;
+            text-align: left; /* Alinhei à esquerda */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .history-section p {
+            font-size: 18px;
+            line-height: 1.8;
+            text-align: left; /* Alinhei à esquerda */
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .history-section {
+                flex-direction: column;
+            }
+            .history-section .video-container {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            .history-section .text-content {
+                width: 100%;
+            }
+        }
+        .products-services-section {
+            display: flex;
+            justify-content: space-between;
+        }
+        .services-list {
+            flex: 2;
+            margin-right: 30px; /* Adiciona espaço entre o texto e o GIF */
+        }
+        .services-gif {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .services-gif img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+        <img src="Logo site.png" alt="Matrix Systems Logo">
+        <h1>Matrix Systems</h1>
+    </header>
+    <nav>
+        <a href="#Home">Home</a>
+        <div class="dropdown">
+            <a href="#produtos">Produtos e Serviços</a>
+            <div class="dropdown-content">
+                <a href="https://share.teamforms.app/form/MDE3NTQ5ZGItODY1Ny00NGQ5LWJlYzYtMzliYWM2YzQ3YjVkOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDpkMTVhYWQ5Yi1mMjY1LTQ0NGMtOWNmNS1kZTA4ZGQ0YWViODg=">Análise de Dados</a>
+                <a href="https://share.teamforms.app/form/MWY5Zjg2ZDQtYWJlOS00MTI4LTgyMmYtNzY3ZGNmNTgxNDYyOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDoxM2E5ZTE0Ni00MTY3LTQ4YTYtYTFiNi1hMDQyODk4NzM4MDU=">Automação de Processos</a>
+                <a href="https://share.teamforms.app/form/ZjMxMTk4YTAtNjRlMy00NmM5LTk3MmItNDM5ZmMzNjNhNjhiOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDo2YjlmMjg4Mi05ZWM0LTRiNzQtYjFkMi0xNWY4ZGZkMjc4Nzg=">Automação WhatsApp</a>
+                <a href="https://share.teamforms.app/form/MTQ5ZTJjZDItZjE0My00YjJkLTk0ODYtYTE5YWNiMDMzYzdkOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDoyMjk0ZjIwMi0wOTI3LTQ2MmMtOGExYi0wYWNmOTQ2YWZmODU=">Consultoria em Automação</a>
+                <a href="https://share.teamforms.app/form/MDkyZTBkZTItMzk4YS00MWUwLWIxYmQtNDNkMDM1ZWEzOWJiOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDpjY2UxYmU1OS1mZjg4LTQ4YWMtYTVkMi1jYjExODJiNWI2ZjE=">Aplicativos (Office 365)</a>
+                <a href="https://share.teamforms.app/form/OTk5NTJiNGEtYzVmMS00OTQ1LTgyN2YtNTAzNjA0MmIyMGQ2OmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDo4ZWUzMzZiNC1kYmIzLTRjYWMtYWZhZi0yZjI4YWQ2ZGI1MzM=">Formulário Personalizado (Office 365)</a>
+                <a href="https://share.teamforms.app/form/ZDczNWRiYTItYjk3MS00Zjc4LWJkZmMtYjBlM2RmMTk4MDAzOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDo2MDU5MDRkYi1lMjdiLTQ4ZWMtODRkYS0yNTE0YjVmMjQzYTQ=">Sistemas Internos ou Externos (Office 365)</a>
+                <a href="https://share.teamforms.app/form/ZjcwYzc5MTAtNzFjNy00NjAzLWJiMzAtNTk5NGRmM2NkZjEwOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDpjYmVkZDJkYS1kOTQ1LTQyNzMtOTM3Yi0yNzczYjVmOTBkZDQ=">Dashboard</a>
+                <a href="https://share.teamforms.app/form/YWQ3ZWUyZGItM2YwNS00NGVkLTg4MDQtYzFkYmNhNDBmOTIxOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDozZTU4YmQxNi0zZjZiLTRlNWEtOTI4MS1iMWVmM2RmYmI0YTQ=">Manutenção e Suporte Técnico</a>
+                <a href="https://share.teamforms.app/form/YTgwNTg5MTQtODk4MC00OTFkLWE1MDMtYjdhMzJiYWU2MTZjOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDpjYWE4MmM1Zi0xMDhkLTQ5YjYtYjc0Ny04OTc0ZWY2YWJjNTI=">Sites ou Aplicativos</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a href="#projetos">Projetos</a>
+            <div class="dropdown-content">
+                <a href="https://share.teamforms.app/form/NTk0YzdiOWUtMzE0OS00MDdmLThiN2UtYjQ5OTJjZTE3MjAzOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDplYzBjZDNkNS02YjI5LTQ2YzQtYWRhMy02NjMyZGQyNzQ1NmM=">Automação WhatsApp</a>
+                <a href="https://share.teamforms.app/form/NTk0YzdiOWUtMzE0OS00MDdmLThiN2UtYjQ5OTJjZTE3MjAzOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDplYzBjZDNkNS02YjI5LTQ2YzQtYWRhMy02NjMyZGQyNzQ1NmM=">Formulário Interativo</a>
+                <a href="https://share.teamforms.app/form/NTk0YzdiOWUtMzE0OS00MDdmLThiN2UtYjQ5OTJjZTE3MjAzOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDplYzBjZDNkNS02YjI5LTQ2YzQtYWRhMy02NjMyZGQyNzQ1NmM=">Power Apps</a>
+                <a href="https://share.teamforms.app/form/NTk0YzdiOWUtMzE0OS00MDdmLThiN2UtYjQ5OTJjZTE3MjAzOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDplYzBjZDNkNS02YjI5LTQ2YzQtYWRhMy02NjMyZGQyNzQ1NmM=">Power Automate</a>
+                <a href="https://share.teamforms.app/form/NTk0YzdiOWUtMzE0OS00MDdmLThiN2UtYjQ5OTJjZTE3MjAzOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDplYzBjZDNkNS02YjI5LTQ2YzQtYWRhMy02NjMyZGQyNzQ1NmM=">Power BI</a>
+                <a href="https://share.teamforms.app/form/NTk0YzdiOWUtMzE0OS00MDdmLThiN2UtYjQ5OTJjZTE3MjAzOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDplYzBjZDNkNS02YjI5LTQ2YzQtYWRhMy02NjMyZGQyNzQ1NmM=">SharePoint</a>
+                <a href="https://share.teamforms.app/form/NTk0YzdiOWUtMzE0OS00MDdmLThiN2UtYjQ5OTJjZTE3MjAzOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDplYzBjZDNkNS02YjI5LTQ2YzQtYWRhMy02NjMyZGQyNzQ1NmM=">Sites e Aplicativos Personalizados</a>
+            </div>
+        </div>
+        <a href="#contato">Contato</a>
+    </nav>
+    <div class="content">
+        <section id="about" class="section">
+            <div class="history-section">
+                <div class="text-content">
+                    <h2>Nossa História</h2>
+                    <p>A Matrix Systems é uma empresa especializada em automação de processos.</p>
+                    <p>Nossa trajetória é marcada pelo compromisso com a inovação e a eficiência, sempre buscando oferecer as melhores soluções para nossos clientes.</p>
+
+                    <h2>Valores, Missão e Comprometimento da Marca</h2>
+                    <p>Nosso objetivo é transformar processos empresariais através da automação, melhorando a qualidade e a eficiência.</p>
+                    <p>Valorizamos a inovação, a integridade e o comprometimento com nossos clientes.</p>
+                    <p>Nossa missão é ser referência em automação de processos, proporcionando resultados concretos e de alta qualidade.</p>
+                    <a href="https://www.youtube.com/@MatrixSystems/videos" class="button">Saiba mais</a>
+                </div>
+                <div class="video-container">
+                    <!-- Substitua SEU_ID_DO_VIDEO pelo ID do vídeo do YouTube -->
+                    <html lang="pt-BR">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>Incorporação de Vídeo do YouTube</title>
+                    </head>
+                    <body>
+                        <h1></h1>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/BBb-KLQWt0A" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>   
+                </div>
+        </section>
+        <div id="valores" class="section">
+        </div>
+        <div id="produtos" class="section">
+            <h2>Produtos e Serviços Oferecidos</h2>
+            <div class="products-services-section">
+                <div class="services-list">
+                    <ul>
+                        <li><strong>Análise de Dados:</strong> Transformação de dados em insights estratégicos.</li>
+                        <li><strong>Automação de Processos (Office 365):</strong> Soluções personalizadas para aumentar a eficiência operacional.</li>
+                        <li><strong>Automação de WhatsApp:</strong>  Integração personalizada do WhatsApp para otimizar o atendimento ao cliente.</li>
+                        <li><strong>Consultoria em Automação:</strong> Desenvolvimento de estratégias de automação para diversos setores.</li>
+                        <li><strong>Criação de Aplicativos (Office 365):</strong> Desenvolvimento de aplicativos personalizados usando Power Apps.</li>
+                        <li><strong>Criação de Formulário Personalizado (Office 365):</strong>  Desenvolvimento de formulários automatizados e personalizados.</li>
+                        <li><strong>Criação de Sistemas Internos ou Externos (Office 365):</strong>Desenvolvimento de sistemas customizados usando Office 365.</li>
+                        <li><strong>Dashboard:</strong> Criação de relatórios interativos e precisos, desenvolvidos pelo Power BI ou Excel.</li>
+                        <li><strong>Manutenção e Suporte Técnico:</strong> Serviços contínuos de suporte e manutenção.</li>
+                        <li><strong>Sites ou Aplicativos:</strong> Criação de Sites ou Aplicativos personalizados para sua empresa.</li>
+                    </ul>
+                </div>
+                <div class="services-gif">
+                    <img src="GIF Matrix Systems2.gif" alt="GIF mostrando produtos e serviços">
+                </div>
+            </div>
+        </div>
+        <section id="projects" class="project-section">
+            <div id="projetos" class="section">
+                <h2>Projetos</h2>
+                <button class="project-button left" onclick="moveProjects(-1)">&#10094;</button>
+                <div class="project-carousel">
+                    <div class="project-list">
+                        <div class="project-item">
+                            <img src="https://imagepng.org/wp-content/uploads/2017/08/WhatsApp-icone.png" alt="Projeto 1">
+                            <div class="project-content">
+                                <h3>Automação WhatsApp</h3>
+                                <p>Aprimore a comunicação da sua empresa com nossos serviços de automação de WhatsApp, simplificando o gerenciamento de mensagens e otimizando seus processos com soluções personalizadas.</p>
+                                <a href="https://share.teamforms.app/form/NTk0YzdiOWUtMzE0OS00MDdmLThiN2UtYjQ5OTJjZTE3MjAzOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDplYzBjZDNkNS02YjI5LTQ2YzQtYWRhMy02NjMyZGQyNzQ1NmM=" class="button">Saiba Mais</a>
+                            </div>
+                        </div>
+                        <div class="project-item">
+                            <img src="https://www.kindpng.com/picc/m/274-2747600_form-icon-png-transparent-png.png" alt="Projeto 2">
+                            <div class="project-content">
+                                <h3>Formulário Interativo</h3>
+                                <p>Ideal para empresas que buscam otimizar processos internos, o TeamsForms oferece uma interface para criar formulários específicos e personalizáveis para diversas necessidades.</p>
+                                <a href="https://share.teamforms.app/form/NTk0YzdiOWUtMzE0OS00MDdmLThiN2UtYjQ5OTJjZTE3MjAzOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDplYzBjZDNkNS02YjI5LTQ2YzQtYWRhMy02NjMyZGQyNzQ1NmM=" class="button">Saiba Mais</a>
+                            </div>
+                        </div>
+                        <div class="project-item">
+                            <img src="https://www.it.miami.edu/_assets/images/PowerApps_256.png" alt="Projeto 3">
+                            <div class="project-content">
+                                <h3>Power Apps</h3>
+                                <p>O Power Apps capacita empresas a transformar ideias em soluções práticas, conectando dados, automatizando processos e melhorando a produtividade de forma eficiente.</p>
+                                <a href="https://share.teamforms.app/form/NTk0YzdiOWUtMzE0OS00MDdmLThiN2UtYjQ5OTJjZTE3MjAzOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDplYzBjZDNkNS02YjI5LTQ2YzQtYWRhMy02NjMyZGQyNzQ1NmM=" class="button">Saiba Mais</a>
+                            </div>
+                        </div>
+                        <div class="project-item">
+                            <img src="https://img.icons8.com/fluency/452/microsoft-power-automate-2020.png" alt="Projeto 4">
+                            <div class="project-content">
+                                <h3>Power Automate</h3>
+                                <p>O Power Automate aumenta a produtividade ao automatizar processos em vários aplicativos, reduzindo o tempo gasto em tarefas repetitivas e integrando-se facilmente em toda a organização.</p>
+                                <a href="https://share.teamforms.app/form/NTk0YzdiOWUtMzE0OS00MDdmLThiN2UtYjQ5OTJjZTE3MjAzOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDplYzBjZDNkNS02YjI5LTQ2YzQtYWRhMy02NjMyZGQyNzQ1NmM=" class="button">Saiba Mais</a>
+                            </div>
+                        </div>
+                        <div class="project-item">
+                            <img src="https://th.bing.com/th/id/R.fd44c9ab1626d0a2e318533b762a2e91?rik=aGcI0Hrz5LOLUg&riu=http%3a%2f%2finnoventsys.com%2fwp-content%2fuploads%2f2020%2f08%2fPBI.png&ehk=lvoI6%2bs%2fHyy3nXxaHQrSCrbn66dfzD9lbqPmjy3B20M%3d&risl=&pid=ImgRaw&r=0" alt="Projeto 5">
+                            <div class="project-content">
+                                <h3>Power BI</h3>
+                                <p>O Power BI oferece ferramentas poderosas para visualização, análise e compartilhamento de dados, ideal para empresas que buscam uma visão detalhada de suas informações.</p>
+                                <a href="https://share.teamforms.app/form/NTk0YzdiOWUtMzE0OS00MDdmLThiN2UtYjQ5OTJjZTE3MjAzOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDplYzBjZDNkNS02YjI5LTQ2YzQtYWRhMy02NjMyZGQyNzQ1NmM=" class="button">Saiba Mais</a>
+                            </div>
+                        </div>
+                        <div class="project-item">
+                            <img src="https://th.bing.com/th/id/OIP.r9pbMvUwUSLwY1cDbTb5CgHaHq?rs=1&pid=ImgDetMain" alt="Projeto 6">
+                            <div class="project-content">
+                                <h3>SharePoint</h3>
+                                <p>Projetado para facilitar a colaboração entre equipes, o SharePoint oferece uma infraestrutura flexível e segura para armazenar, compartilhar e acessar informações de maneira eficiente.</p>
+                                <a href="https://share.teamforms.app/form/NTk0YzdiOWUtMzE0OS00MDdmLThiN2UtYjQ5OTJjZTE3MjAzOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDplYzBjZDNkNS02YjI5LTQ2YzQtYWRhMy02NjMyZGQyNzQ1NmM=" class="button">Saiba Mais</a>
+                            </div>
+                        </div>
+                        <div class="project-item">
+                            <img src="https://ugc.production.linktr.ee/rSbXPnIRzevlivg1vvnA_2-23455_website-logo-png-transparent-background-clipart-png-transparent-removebg-preview.png?io=true&size=thumbnail-stack-v1_0" alt="Projeto 6">
+                            <div class="project-content">
+                                <h3>Sites e Aplicativos Personalizados</h3>
+                                <p>Transforme sua visão em realidade com nossos sites e aplicativos personalizados. Soluções modernas, eficazes e adaptadas às suas necessidades.</p>
+                                <a href="https://share.teamforms.app/form/NTk0YzdiOWUtMzE0OS00MDdmLThiN2UtYjQ5OTJjZTE3MjAzOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDplYzBjZDNkNS02YjI5LTQ2YzQtYWRhMy02NjMyZGQyNzQ1NmM=" class="button">Saiba Mais</a>
+                    </div>
+                </div>
+                <button class="project-button right" onclick="moveProjects(1)">&#10095;</button>
+            </div>
+        </section>
+        </section>
+        <div id="contato" class="contact-section">
+            <div class="info">
+                <h2>Vamos Conversar?</h2>
+                <p>Nossa equipe está pronta para lhe atender.</p>
+                <h2><b>Informações de Contato</b></h2>
+                <p><b>Email:</b> contato@matrixsystems.com</p>
+                <p><B>Telefone:</B> (11) 98543-7459</p>
+                <p><B>Redes Sociais:</B></p>
+                <div class="social-icons">
+                    <a href="https://wa.me/5511985437459" target="_blank"><img src="https://th.bing.com/th/id/OIP.HztGi2n5_lCYZB6V8KCQRgAAAA?rs=1&pid=ImgDetMain" alt="WhatsApp"></a>
+                    <a href="https://www.instagram.com/matrix_systems.br?igsh=M3psNXRreWNrbWw=" target="_blank"><img src="https://www.pinclipart.com/picdir/middle/1-13590_instagram-logo-insta-logo-png-transparent-background-clipart.png" alt="Instagram"></a>
+                    <a href="https://youtube.com/@matrixsystems?si=qmSzc0-jk8jyOw7G" target="_blank"><img src="https://th.bing.com/th/id/OIP.tOmqN2wR6s4UOB2P2x2fAAHaHa?rs=1&pid=ImgDetMain" alt="YouTube"></a>
+                </div>
+            </div>
+            <div class="form-container">
+                <h2>Formulário de Contato</h2>
+                <form id="contactForm" action="https://script.google.com/macros/s/AKfycbwBB0kiBN0mXcqyxfpQSylam6JibubzwY3vSg7g5m3U9Ti0npwdd0hukUCYTH89cqCT6Q/exec" method="post" target="hidden_iframe" onsubmit="submitted=true;">
+                    <label for="nomeEmpresa">Nome da Empresa:</label>
+                    <input type="text" id="nomeEmpresa" name="nomeEmpresa" required><br>
+                    
+                    <label for="nomeCompleto">Nome Completo:</label>
+                    <input type="text" id="nomeCompleto" name="nomeCompleto" required><br>
+                    
+                    <label for="telefone">Telefone:</label>
+                    <input type="text" id="telefone" name="telefone" required><br>
+                    
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required><br>
+                    
+                    <label for="tipoSistema">Tipo de Sistema:</label>
+                    <select id="tipoSistema" name="tipoSistema" required>
+                        <option value="">Selecione</option>
+                        <option value="Análise de Dados">Análise de Dados</option>
+                        <option value="Automação de Processos (Office 365)">Automação de Processos (Office 365)</option>
+                        <option value="Automação de WhatsApp">Automação de WhatsApp</option>
+                        <option value="Consultoria em Automação">Consultoria em Automação</option>
+                        <option value="Criação de Aplicativos (Office 365)">Criação de Aplicativos (Office 365)</option>
+                        <option value="Criação de Formulário Personalizado (Office 365)">Criação de Formulário Personalizado (Office 365)</option>
+                        <option value="Criação de Sistemas Internos ou Externos (Office 365)">Criação de Sistemas Internos ou Externos (Office 365)</option>
+                        <option value="Dashboard">Dashboard</option>
+                        <option value="Manutenção e Suporte Técnico">Manutenção e Suporte Técnico</option>
+                        <option value="Sites e Aplicativos">Sites e aplicativos</option>
+                    </select><br>
+                    
+                    <label for="mensagem">Mensagem:</label>
+                    <textarea id="mensagem" name="mensagem" required></textarea><br>
+                    
+                    <button type="submit">Enviar</button>
+                </form>
+                <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {alert('Formulário enviado com sucesso'); submitted=false;}"></iframe>
+                <script type="text/javascript">
+                    var submitted = false;
+                </script>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Matrix Systems. Todos os direitos reservados.</p>
+    </footer>
+    <div class="scroll-to-top" id="scrollToTop">↑</div>
+    <script>
+                // Show or hide the scroll-to-top button
+                window.addEventListener('scroll', function() {
+            const scrollToTopButton = document.getElementById('scrollToTop');
+            if (window.scrollY > 300) {
+                scrollToTopButton.style.display = 'block';
+            } else {
+                scrollToTopButton.style.display = 'none';
+            }
+        });
+
+        // Scroll to top logic
+        document.getElementById('scrollToTop').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+         window.onscroll = function() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.querySelector('.scroll-to-top').style.display = 'block';
+            } else {
+                document.querySelector('.scroll-to-top').style.display = 'none';
+            }
+        };
+
+        function scrollToTop() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+
+        let currentIndex = 0;
+        function moveCarousel(direction) {
+            const carouselWrapper = document.querySelector('.carousel-wrapper');
+            const items = document.querySelectorAll('.carousel-item');
+            currentIndex += direction;
+            if (currentIndex < 0) {
+                currentIndex = items.length - 1;
+            } else if (currentIndex >= items.length) {
+                currentIndex = 0;
+            }
+            const translateX = -currentIndex * 100;
+            carouselWrapper.style.transform = `translateX(${translateX}%)`;
+        }
+        let currentPosition = 0;
+let slideWidth;
+let totalSlides;
+let timer;
+
+function setupCarousel() {
+  const slides = document.querySelectorAll('.project-item');
+  slideWidth = slides[0].offsetWidth + 20; // Largura do slide com margem
+  totalSlides = slides.length;
+
+  // Clona todos os slides e adiciona ao final para criar um ciclo contínuo
+  slides.forEach((slide, index) => {
+    const slideClone = slide.cloneNode(true);
+    document.querySelector('.project-list').appendChild(slideClone);
+  });
+
+  // Ajusta a largura do contêiner .project-list para conter todos os slides clonados
+  const listWidth = (totalSlides * 2) * slideWidth;
+  document.querySelector('.project-list').style.width = `${listWidth}px`;
+
+  // Inicia o carrossel
+  startCarousel();
+}
+
+function startCarousel() {
+  timer = setInterval(function() {
+    moveProjects(1); // Move para o próximo item do carrossel
+  }, 4000); // Intervalo de 4 segundos entre cada transição automática
+}
+
+function stopCarousel() {
+  clearInterval(timer);
+}
+
+function moveProjects(direction) {
+  currentPosition += direction;
+
+  // Calcula a posição do próximo slide
+  const newPosition = -currentPosition * slideWidth;
+
+  // Animação para mover para a nova posição
+  document.querySelector('.project-list').style.transition = 'transform 0.5s ease-in-out';
+  document.querySelector('.project-list').style.transform = `translateX(${newPosition}px)`;
+
+  // Verifica se chegou ao último slide original
+  if (currentPosition >= totalSlides) {
+    // Reinicia para o primeiro slide sem transição para um ciclo contínuo
+    setTimeout(() => {
+      document.querySelector('.project-list').style.transition = 'none';
+      document.querySelector('.project-list').style.transform = 'translateX(0)';
+      currentPosition = 0;
+    }, 500); // Tempo para a transição terminar antes de resetar para o primeiro slide
+  }
+}
+
+// Atualiza a largura do slide ao redimensionar a janela
+window.addEventListener('resize', function() {
+  setupCarousel();
+});
+
+// Inicia o carrossel automaticamente ao carregar a página
+window.addEventListener('load', function() {
+  setupCarousel();
+});
+
+// Para o carrossel quando o mouse estiver sobre ele
+const carouselContainer = document.querySelector('.project-carousel');
+carouselContainer.addEventListener('mouseenter', stopCarousel);
+carouselContainer.addEventListener('mouseleave', startCarousel);
+    </script>
+</body>
+</html>
