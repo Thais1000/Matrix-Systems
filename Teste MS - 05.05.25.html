@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Matrix Systems - Tecnologia e Consultoria</title>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #1937b3;
+      color: #fbfbfb;
+      overflow-x: hidden;
+}
+
+/* Dropdown para Serviços */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  background-color: #000000e2;
+  padding: 1rem;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.dropdown-content a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 0;
+}
+
+.dropdown-content a:hover {
+  color: #00c3ff;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+      
+    }
+    header {
+      background-color: #000000e2;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed; /* Tornar fixo */
+      z-index: 10;
+      top: 0;
+      left: 0;
+      width: 97%;
+      z-index: 1000; /* Certifique-se de que está acima de tudo */
+    }
+    .logo {
+      font-weight: bold;
+    }
+    nav {
+      display: flex;
+      gap: 1.5rem;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #232777;
+    }
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+    .menu-toggle div {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+    }
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #000;
+        width: 100%;
+        padding: 1rem 2rem;
+      }
+      nav.active {
+        display: flex;
+      }
+      .menu-toggle {
+        display: flex;
+      }
+    }
+ /* Botão WhatsApp (invisível por padrão) */
+ .whatsapp-button {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .whatsapp-button.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    .logo img {
+  height: 40px;
+  width: auto;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+    /* Carrossel */
+    #hero.carousel {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(to right, #000428, #004e92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex-direction: column;
+      color: white;
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 2rem;
+      z-index: 1;
+    }
+
+    .slide.active {
+      opacity: 10;
+    }
+
+    .slide h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .slide p {
+      font-size: 1.2rem;
+      max-width: 700px;
+    }
+    
+    .slide-content {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     width: 100%;
+     max-width: 1200px;
+     gap: 2rem;
+     z-index: 10;
+}
+
+.text-content {
+  flex: 1;
+  text-align: left;
+  position: relative;
+  z-index: 10;
+}
+
+.image-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.image-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+@media (max-width: 768px) {
+  .slide-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .image-content {
+    display: none; /* ou ajuste o tamanho se preferir mostrar */
+  }
+
+  .text-content {
+    text-align: center;
+  }
+}
+
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      font-size: 2rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 2;
+    }
+    
+    .prev { left: 20px; }
+    .next { right: 20px; }
+    .prev:hover, .next:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .saiba-mais-btn {
+      margin-top: 1.5rem;
+      padding: 0.75rem 2rem;
+      background-color: transparent;
+      border: 2px solid #fff;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 30px;
+      transition: background-color 0.3s, color 0.3s;
+      position: relative;
+      z-index: 20;
+    }
+    .saiba-mais-btn:hover {
+      background-color: #fff;
+      color: #004e92;
+    }
+    .saiba-mais-btn .arrow {
+      display: inline-block;
+      margin-left: 10px;
+      transition: transform 0.3s;
+    }
+    .saiba-mais-btn:hover .arrow {
+      transform: translateY(5px);
+    }
+
+    #matrix-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      background: linear-gradient(to right, #000428, #004e92);
+    }
+
+    .section {
+      padding: 4rem 2rem;
+      background-color: #000428;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1s ease forwards;
+      animation-delay: 0.5s;
+    }
+
+    .section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: #f2f2f2;
+    }
+
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .card {
+      background-color: #000000e2;
+      background: linear-gradient(90deg, #00c3ff, #004e92);
+      border-radius: 12px;
+      padding: 2rem;
+      width: 300px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .video-container iframe {
+      border-radius: 12px;
+      box-shadow: 0 0 20px #00c3ff;
+      max-width: 100%;
+    }
+
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    input, textarea {
+      padding: 0.8rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    button[type="submit"] {
+      background: linear-gradient(90deg, #00c3ff, #004e92);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    
+    .button {
+      background: linear-gradient(90deg, #00c3ff, #004e92);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    button[type="submit"]:hover {
+        background: linear-gradient(90deg, #004e92, #00c3ff);
+        transform: scale(1.05);
+    }
+
+    footer {
+      background-color: #000000e2;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .scroll-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background-color: #004c99;
+      color: #ffffff;
+      text-align: center;
+      line-height: 40px;
+      font-size: 24px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      transition: background-color 0.3s ease;
+    }
+    .scroll-to-top:hover {
+      background: linear-gradient(90deg, #00c3ff, #004e92)
+    }
+
+.carousel-wrapper {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+    /* Container do carrossel */
+.carousel-container {
+    width: 100%;
+    overflow: hidden; /* Mudado para esconder a rolagem do contêiner principal */
+    white-space: nowrap;
+    padding-bottom: 10px;
+    background-color: #f9f9f9;
+    position: relative;
+}
+
+/* Itens do carrossel */
+.carousel-item {
+    display: inline-block;
+    width: 200px;
+    box-sizing: border-box;
+    margin-right: 20px;
+    vertical-align: top;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    padding: 10px;
+}
+
+.carousel-item:hover {
+    transform: translateY(-5px);
+}
+
+.icon-image {
+    width: 60px;
+    height: 60px;
+    margin-top: 15px;
+    transition: transform 0.5s ease;
+}
+
+.carousel-item:hover .icon-image {
+    transform: scale(1.05);
+}
+
+.carousel-caption {
+    padding: 10px;
+    background-color: #004c99;
+    color: #ffffff;
+    text-align: center;
+    transition: background-color 0.5s ease;
+    border-radius: 0 0 10px 10px;
+}
+
+.carousel-caption:hover {
+    background-color: #003366;
+}
+
+.carousel-caption h3 {
+    margin: 5px 0;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.carousel-caption p {
+    margin: 5px 0 0;
+    font-size: 14px;
+}
+
+/* Botões do carrossel */
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 10;
+}
+
+.carousel-button.left {
+    left: 10px;
+}
+
+.carousel-button.right {
+    right: 10px;
+}
+
+.carousel-button:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Barra de rolagem */
+.carousel-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.carousel-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.carousel-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .carousel-item {
+        width: calc(100% / 2 - 20px);
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-item {
+        width: calc(100% - 20px);
+    }
+}
+
+/* Estilo principal da seção de projetos */
+.project-section {
+    position: relative;
+    padding: 20px;
+    background-color: #000428;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+.project-section h2 {
+    color: #004c99;
+    font-size: 24px;
+    margin-bottom: 15px;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.project-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 20px;
+}
+
+.project-item {
+    flex: 0 0 auto;
+    width: 250px;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.project-item:hover {
+    transform: translateY(-5px);
+}
+
+.project-item img {
+    width: 30%;
+    height: auto;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.project-content {
+    padding: 15px;
+}
+
+.project-content h3 {
+    margin: 0;
+    font-size: 20px;
+    color: #004c99;
+    font-weight: 700;
+}
+
+.project-content p {
+    margin: 10px 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #101010;
+}
+
+.project-content .button {
+    background-color: #004c99;
+    color: #ffffff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.project-content .button:hover {
+    background-color: #003366;
+}
+
+.project-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 10;
+}
+
+.project-button.left {
+    left: 10px;
+}
+
+.project-button.right {
+    right: 10px;
+}
+
+.project-button:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.services-list {
+   flex: 2;
+   margin-right: 30px; /* Adiciona espaço entre o texto e o GIF */
+}
+ .services-gif {
+   flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.services-gif img {
+  max-width: 100%;
+  height: auto;
+}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="C:\Users\thais\OneDrive\Documentos\SITE\Logo site atualizado MS (2).png" alt="Logo Matrix Systems" />
+      <span>Matrix Systems</span>
+    </div>
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <div></div><div></div><div></div>
+    </div>
+    <nav id="menu">
+      <a href="#">Início</a>
+      <a href="#sobre">Sobre</a>
+      <div class="dropdown">
+        <a href="#servicos">Serviços</a>
+        <div class="dropdown-content">
+          <a href="#servico-powerbi">Power BI</a>
+          <a href="#servico-sharepoint">SharePoint</a>
+          <a href="#servico-powerautomate">Power Automate</a>
+          <a href="#servico-consultoria">Consultoria M365</a>
+        </div>
+      </div>
+      <a href="#Planos">Planos</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </header>
+
+</div>
+  <section id="hero" class="carousel">
+    <canvas id="matrix-canvas"></canvas>
+
+    <div class="slide active">
+        <div class="slide-content">
+          <div class="text-content">
+            <h1>Transformamos seu Negócio com Tecnologia</h1>
+            <p>Consultoria especializada em Microsoft 365, Power BI, SharePoint e Power Automate.</p>
+            <a href="#servicos" class="saiba-mais-btn">SAIBA MAIS <span class="arrow">↓</span></a>
+          </div>
+          <div class="services-gif">
+            <img src="C:\Users\thais\OneDrive\Área de Trabalho\Empresa Sistemas WVT\Arte Digital.gif" alt="GIF mostrando produtos e serviços">
+          </div>
+        </div>
+      </div>
+      
+    <div class="slide">
+      <h1>Eficiência e Inovação</h1>
+      <p>Automatize processos e acelere a transformação digital da sua empresa.</p>
+      <a href="#servicos" class="saiba-mais-btn">SAIBA MAIS <span class="arrow">↓</span></a>
+    </div>
+    <div class="slide">
+      <h1>Resultados Reais</h1>
+      <p>Entregamos soluções que geram impacto, produtividade e crescimento.</p>
+      <a href="#servicos" class="saiba-mais-btn">SAIBA MAIS <span class="arrow">↓</span></a>
+    </div>
+
+    <button class="prev" onclick="prevSlide()" aria-label="Slide anterior">&#10094;</button>
+    <button class="next" onclick="nextSlide()" aria-label="Próximo slide">&#10095;</button>
+  </section>
+
+  <section class="section" id="sobre">
+    <h2>Quem Somos</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: center;">
+      <div style="flex: 1; min-width: 280px;">
+        <p>A Matrix Systems é uma empresa especializada em automação de processos e consultoria, focada em transformar a produtividade das empresas por meio da tecnologia Microsoft.</p>
+        <p>Nossa trajetória é marcada pelo compromisso com a inovação e a eficiência, sempre buscando oferecer as melhores soluções para nossos clientes.</p>
+        <h2>Valores, Missão e Comprometimento da Marca</h2>
+        <p>Nosso objetivo é transformar processos empresariais através da automação, melhorando a qualidade e a eficiência.</p>
+        <p>Valorizamos a inovação, a integridade e o comprometimento com nossos clientes.</p>
+        <p>Nossa missão é ser referência em automação de processos, proporcionando resultados concretos e de alta qualidade.</p>
+        <a href="https://www.youtube.com/@MatrixSystems/videos" class="button">Saiba mais</a> 
+      </div>
+      <div class="video-container" style="flex: 1; min-width: 300px;">
+        <iframe width="100%" height="315" src="https://www.youtube.com/embed/BBb-KLQWt0A"
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          title="Vídeo institucional Matrix Systems">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="servicos">
+    <h2>Nossos Serviços</h2>
+  </div>
+  <section id="projects" class="project-section">
+          <h2></h2>
+          <button class="project-button left" onclick="moveProjects(-1)">&#10094;</button>
+          <div class="project-carousel">
+              <div class="project-list">
+                  <div class="project-item">
+                      <img src="https://static.vecteezy.com/system/resources/previews/007/225/199/non_2x/robot-chat-bot-concept-illustration-vector.jpg" alt="Projeto 1">
+                      <div class="project-content">
+                          <h3>ChatBot</h3>
+                          <p>Aprimore a comunicação da sua empresa com nossos serviços de automação via ChatBot, simplificando o gerenciamento de mensagens e otimizando seus processos com soluções personalizadas.</p>
+                          <a href="https://share.teamforms.app/form/NTk0YzdiOWUtMzE0OS00MDdmLThiN2UtYjQ5OTJjZTE3MjAzOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDplYzBjZDNkNS02YjI5LTQ2YzQtYWRhMy02NjMyZGQyNzQ1NmM=" class="button">Saiba Mais</a>
+                      </div>
+                  </div>
+                  <div class="project-item">
+                      <img src="https://www.kindpng.com/picc/m/274-2747600_form-icon-png-transparent-png.png" alt="Projeto 2">
+                      <div class="project-content">
+                          <h3>Formulário Interativo</h3>
+                          <p>Ideal para empresas que buscam otimizar processos internos, o TeamsForms oferece uma interface para criar formulários específicos e personalizáveis para diversas necessidades.</p>
+                          <a href="https://share.teamforms.app/form/NTk0YzdiOWUtMzE0OS00MDdmLThiN2UtYjQ5OTJjZTE3MjAzOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDplYzBjZDNkNS02YjI5LTQ2YzQtYWRhMy02NjMyZGQyNzQ1NmM=" class="button">Saiba Mais</a>
+                      </div>
+                  </div>
+                  <div class="project-item">
+                      <img src="https://www.it.miami.edu/_assets/images/PowerApps_256.png" alt="Projeto 3">
+                      <div class="project-content">
+                          <h3>Power Apps</h3>
+                          <p>O Power Apps capacita empresas a transformar ideias em soluções práticas, conectando dados, automatizando processos e melhorando a produtividade de forma eficiente.</p>
+                          <a href="https://share.teamforms.app/form/NTk0YzdiOWUtMzE0OS00MDdmLThiN2UtYjQ5OTJjZTE3MjAzOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDplYzBjZDNkNS02YjI5LTQ2YzQtYWRhMy02NjMyZGQyNzQ1NmM=" class="button">Saiba Mais</a>
+                      </div>
+                  </div>
+                  <div class="project-item">
+                      <img src="https://img.icons8.com/fluency/452/microsoft-power-automate-2020.png" alt="Projeto 4">
+                      <div class="project-content">
+                          <h3>Power Automate</h3>
+                          <p>O Power Automate aumenta a produtividade ao automatizar processos em vários aplicativos, reduzindo o tempo gasto em tarefas repetitivas e integrando-se facilmente em toda a organização.</p>
+                          <a href="https://share.teamforms.app/form/NTk0YzdiOWUtMzE0OS00MDdmLThiN2UtYjQ5OTJjZTE3MjAzOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDplYzBjZDNkNS02YjI5LTQ2YzQtYWRhMy02NjMyZGQyNzQ1NmM=" class="button">Saiba Mais</a>
+                      </div>
+                  </div>
+                  <div class="project-item">
+                      <img src="https://th.bing.com/th/id/R.fd44c9ab1626d0a2e318533b762a2e91?rik=aGcI0Hrz5LOLUg&riu=http%3a%2f%2finnoventsys.com%2fwp-content%2fuploads%2f2020%2f08%2fPBI.png&ehk=lvoI6%2bs%2fHyy3nXxaHQrSCrbn66dfzD9lbqPmjy3B20M%3d&risl=&pid=ImgRaw&r=0" alt="Projeto 5">
+                      <div class="project-content">
+                          <h3>Power BI</h3>
+                          <p>O Power BI oferece ferramentas poderosas para visualização, análise e compartilhamento de dados, ideal para empresas que buscam uma visão detalhada de suas informações.</p>
+                          <a href="https://share.teamforms.app/form/NTk0YzdiOWUtMzE0OS00MDdmLThiN2UtYjQ5OTJjZTE3MjAzOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDplYzBjZDNkNS02YjI5LTQ2YzQtYWRhMy02NjMyZGQyNzQ1NmM=" class="button">Saiba Mais</a>
+                      </div>
+                  </div>
+                  <div class="project-item">
+                      <img src="https://th.bing.com/th/id/OIP.r9pbMvUwUSLwY1cDbTb5CgHaHq?rs=1&pid=ImgDetMain" alt="Projeto 6">
+                      <div class="project-content">
+                          <h3>SharePoint</h3>
+                          <p>Projetado para facilitar a colaboração entre equipes, o SharePoint oferece uma infraestrutura flexível e segura para armazenar, compartilhar e acessar informações de maneira eficiente.</p>
+                          <a href="https://share.teamforms.app/form/NTk0YzdiOWUtMzE0OS00MDdmLThiN2UtYjQ5OTJjZTE3MjAzOmIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZDplYzBjZDNkNS02YjI5LTQ2YzQtYWRhMy02NjMyZGQyNzQ1NmM=" class="button">Saiba Mais</a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <button class="project-button right" onclick="moveProjects(1)">&#10095;</button>
+      </div>
+  </section>
+  </section>
+  <section class="section" id="Planos">
+    <h2>Nossos Planos</h2>
+    <div class="card-container">
+      <div class="card">
+        <h3>Power BI</h3>
+        <p>Dashboards interativos para tomada de decisão com dados.</p>
+      </div>
+      <div class="card">
+        <h3>SharePoint</h3>
+        <p>Ambientes colaborativos e portais personalizados para sua empresa.</p>
+      </div>
+      <div class="card">
+        <h3>Power Automate</h3>
+        <p>Automatização de processos para ganho de eficiência operacional.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contato">
+    <h2>Entre em Contato</h2>
+    <form action="#" method="post">
+      <input type="text" name="nome" placeholder="Seu nome" required />
+      <input type="email" name="email" placeholder="Seu e-mail" required />
+      <textarea name="mensagem" rows="5" placeholder="Sua mensagem" required></textarea>
+      <button type="submit">Enviar Mensagem</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Matrix Systems. Todos os direitos reservados.</p>
+  </footer>
+  
+  <div class="scroll-to-top" id="scrollToTop">↑</div>
+  <script>
+              // Show or hide the scroll-to-top button
+              window.addEventListener('scroll', function() {
+          const scrollToTopButton = document.getElementById('scrollToTop');
+          if (window.scrollY > 300) {
+              scrollToTopButton.style.display = 'block';
+          } else {
+              scrollToTopButton.style.display = 'none';
+          }
+      });
+
+      // Scroll to top logic
+      document.getElementById('scrollToTop').addEventListener('click', function() {
+          window.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+          });
+      });
+       window.onscroll = function() {
+          if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+              document.querySelector('.scroll-to-top').style.display = 'block';
+          } else {
+              document.querySelector('.scroll-to-top').style.display = 'none';
+          }
+      };
+
+      function scrollToTop() {
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+      }
+
+      let currentIndex = 0;
+      function moveCarousel(direction) {
+          const carouselWrapper = document.querySelector('.carousel-wrapper');
+          const items = document.querySelectorAll('.carousel-item');
+          currentIndex += direction;
+          if (currentIndex < 0) {
+              currentIndex = items.length - 1;
+          } else if (currentIndex >= items.length) {
+              currentIndex = 0;
+          }
+          const translateX = -currentIndex * 100;
+          carouselWrapper.style.transform = `translateX(${translateX}%)`;
+      }
+      let currentPosition = 0;
+let slideWidth;
+let totalSlides;
+let timer;
+
+function setupCarousel() {
+const slides = document.querySelectorAll('.project-item');
+slideWidth = slides[0].offsetWidth + 20; // Largura do slide com margem
+totalSlides = slides.length;
+
+// Clona todos os slides e adiciona ao final para criar um ciclo contínuo
+slides.forEach((slide, index) => {
+  const slideClone = slide.cloneNode(true);
+  document.querySelector('.project-list').appendChild(slideClone);
+});
+
+// Ajusta a largura do contêiner .project-list para conter todos os slides clonados
+const listWidth = (totalSlides * 2) * slideWidth;
+document.querySelector('.project-list').style.width = `${listWidth}px`;
+
+// Inicia o carrossel
+startCarousel();
+}
+
+function startCarousel() {
+timer = setInterval(function() {
+  moveProjects(1); // Move para o próximo item do carrossel
+}, 4000); // Intervalo de 4 segundos entre cada transição automática
+}
+
+function stopCarousel() {
+clearInterval(timer);
+}
+
+function moveProjects(direction) {
+currentPosition += direction;
+
+// Calcula a posição do próximo slide
+const newPosition = -currentPosition * slideWidth;
+
+// Animação para mover para a nova posição
+document.querySelector('.project-list').style.transition = 'transform 0.5s ease-in-out';
+document.querySelector('.project-list').style.transform = `translateX(${newPosition}px)`;
+
+// Verifica se chegou ao último slide original
+if (currentPosition >= totalSlides) {
+  // Reinicia para o primeiro slide sem transição para um ciclo contínuo
+  setTimeout(() => {
+    document.querySelector('.project-list').style.transition = 'none';
+    document.querySelector('.project-list').style.transform = 'translateX(0)';
+    currentPosition = 0;
+  }, 500); // Tempo para a transição terminar antes de resetar para o primeiro slide
+}
+}
+
+// Atualiza a largura do slide ao redimensionar a janela
+window.addEventListener('resize', function() {
+setupCarousel();
+});
+
+// Inicia o carrossel automaticamente ao carregar a página
+window.addEventListener('load', function() {
+setupCarousel();
+});
+
+// Para o carrossel quando o mouse estiver sobre ele
+const carouselContainer = document.querySelector('.project-carousel');
+carouselContainer.addEventListener('mouseenter', stopCarousel);
+carouselContainer.addEventListener('mouseleave', startCarousel);
+  </script>
+
+    <!-- Ícone WhatsApp -->
+    <a href="https://wa.me/+5511985437459" class="whatsapp-button" id="whatsappBtn" target="_blank" title="Fale conosco no WhatsApp">
+      <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" alt="WhatsApp" />
+    </a>
+  
+    <script>
+      function toggleMenu() {
+        const menu = document.getElementById("menu");
+        menu.classList.toggle("active");
+      }
+  
+      // Exibir botão WhatsApp somente após rolagem
+      const whatsappBtn = document.getElementById("whatsappBtn");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 200) {
+          whatsappBtn.classList.add("show");
+        } else {
+          whatsappBtn.classList.remove("show");
+        }
+      });
+    </script>
+    </body>
+    </html>
+
+  <div class="scroll-to-top" id="scrollToTop" title="Voltar ao topo">↑</div>
+
+  <script>
+    // Menu responsivo
+    function toggleMenu() {
+      document.getElementById("menu").classList.toggle("active");
+    }
+
+    // Carrossel
+    let slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+    setInterval(() => nextSlide(), 5000);
+
+    function nextSlide() {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }
+
+    function prevSlide() {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }
+
+    // Matrix Rain
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const letters = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = Array.from({ length: columns }, () => 1);
+
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 4, 40, 0.5)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#00c3ff";
+      ctx.font = `${fontSize}px monospace`;
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+    }
+
+    setInterval(drawMatrix, 33);
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    // Scroll to top
+    window.addEventListener('scroll', () => {
+      const scrollToTopButton = document.getElementById('scrollToTop');
+      scrollToTopButton.style.display = window.scrollY > 300 ? 'block' : 'none';
+    });
+
+    document.getElementById('scrollToTop').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
